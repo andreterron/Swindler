@@ -69,6 +69,10 @@ public final class Window {
 
     /// Whether the window is fullscreen or not.
     public var isFullscreen: WriteableProperty<OfType<Bool>> { return delegate.isFullscreen }
+
+    public func close() throws {
+        return try delegate.close()
+    }
 }
 
 public func ==(lhs: Window, rhs: Window) -> Bool {
@@ -107,6 +111,8 @@ protocol WindowDelegate: class {
     var isFullscreen: WriteableProperty<OfType<Bool>>! { get }
 
     func equalTo(_ other: WindowDelegate) -> Bool
+
+    func close() throws
 }
 
 // MARK: - OSXWindowDelegate
@@ -224,6 +230,13 @@ final class OSXWindowDelegate<
         }
 
         initialized = when(fulfilled: initializeProperties(allProperties).asVoid(), subroleChecked)
+    }
+
+    func close() throws {
+        guard let closeButton: AXSwift.UIElement = try axElement.attribute(Attribute.closeButton) else {
+            return
+        }
+        try closeButton.performAction(Action.press)
     }
 
     private func watchWindowElement(_ element: UIElement,
