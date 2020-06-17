@@ -28,6 +28,7 @@ public final class Application {
 
     public var processIdentifier: pid_t { return delegate.processIdentifier }
     public var bundleIdentifier: String? { return delegate.bundleIdentifier }
+    public var bundleURL: URL? { return delegate.bundleURL }
 
     /// The global Swindler state.
     public var swindlerState: State { return state_ }
@@ -75,6 +76,7 @@ extension Application: CustomStringConvertible {
 protocol ApplicationDelegate: class {
     var processIdentifier: pid_t! { get }
     var bundleIdentifier: String? { get }
+    var bundleURL: URL? { get }
 
     var stateDelegate: StateDelegate? { get }
 
@@ -124,6 +126,9 @@ final class OSXApplicationDelegate<
         NSRunningApplication(processIdentifier: self.processIdentifier)!
     lazy var bundleIdentifier: String? =
         self.runningApplication.bundleIdentifier
+
+    lazy var bundleURL: URL? =
+    self.runningApplication.bundleURL
 
     var knownWindows: [WindowDelegate] {
         return windows.map({ $0 as WindowDelegate })
