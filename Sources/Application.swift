@@ -53,6 +53,12 @@ public final class Application {
 
     /// Whether the application is hidden.
     public var isHidden: WriteableProperty<OfType<Bool>> { return delegate.isHidden }
+
+    /// Quits the application
+    public func quit() { return delegate.quit() }
+
+    /// Force quits the application
+    public func forceQuit() { return delegate.forceQuit() }
 }
 
 public func ==(lhs: Application, rhs: Application) -> Bool {
@@ -79,6 +85,9 @@ protocol ApplicationDelegate: class {
     var isHidden: WriteableProperty<OfType<Bool>>! { get }
 
     func equalTo(_ other: ApplicationDelegate) -> Bool
+
+    func quit()
+    func forceQuit()
 }
 
 // MARK: - OSXApplicationDelegate
@@ -295,6 +304,16 @@ final class OSXApplicationDelegate<
         } else {
             return false
         }
+    }
+
+    func quit() {
+        // TODO: Promise
+        runningApplication.terminate()
+    }
+
+    func forceQuit() {
+        // TODO: Promise
+        runningApplication.forceTerminate()
     }
 }
 
