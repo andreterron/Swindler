@@ -7,7 +7,7 @@ public protocol EventType {
     var external: Bool { get }
 }
 
-internal extension EventType {
+public extension EventType {
     // In a later version of Swift, this can be stored (lazily).. store as hashValue for more speed.
     // Instead of using this, we _could_ use an enum of all notifications and require each event to
     // declare a static var of its notification. That's error prone, though, and this is fast enough.

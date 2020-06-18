@@ -2,10 +2,12 @@ import AXSwift
 import PromiseKit
 
 /// Initializes a new Swindler state and returns it in a Promise.
-public func initialize() -> Promise<State> {
+public func initialize(notifier: EventNotifier? = nil) -> Promise<State> {
+
     return OSXStateDelegate<AXSwift.UIElement, AXSwift.Application, AXSwift.Observer>.initialize(
         appObserver: ApplicationObserver(),
-        screens: OSXSystemScreenDelegate()
+        screens: OSXSystemScreenDelegate(),
+        notifier: notifier
     ).map { delegate in
        State(delegate: delegate)
     }
@@ -70,31 +72,6 @@ protocol ApplicationObserverType {
     func onApplicationLaunched(_ handler: @escaping (pid_t) -> Void)
     func onApplicationTerminated(_ handler: @escaping (pid_t) -> Void)
     func makeApplicationFrontmost(_ pid: pid_t) throws
-}
-
-/// Simple pubsub.
-class EventNotifier {
-    private typealias EventHandler = (EventType) -> Void
-    private var eventHandlers: [String: [EventHandler]] = [:]
-
-    func on<Event: EventType>(_ handler: @escaping (Event) -> Void) {
-        let notification = Event.typeName
-        if eventHandlers[notification] == nil {
-            eventHandlers[notification] = []
-        }
-        // Wrap in a casting closure to preserve type information that gets erased in the
-        // dictionary.
-        eventHandlers[notification]!.append({ handler($0 as! Event) })
-    }
-
-    func notify<Event: EventType>(_ event: Event) {
-        assert(Thread.current.isMainThread)
-        if let handlers = eventHandlers[Event.typeName] {
-            for handler in handlers {
-                handler(event)
-            }
-        }
-    }
 }
 
 struct ApplicationObserver: ApplicationObserverType {
@@ -203,19 +180,20 @@ final class OSXStateDelegate<
 
     static func initialize<S: SystemScreenDelegate>(
         appObserver: ApplicationObserverType,
-        screens: S
+        screens: S,
+        notifier: EventNotifier? = nil
     ) -> Promise<OSXStateDelegate> {
         return firstly { () -> Promise<OSXStateDelegate> in
-            let delegate = OSXStateDelegate(appObserver: appObserver, screens: screens)
+            let delegate = OSXStateDelegate(appObserver: appObserver, screens: screens, notifier: notifier)
             return delegate.initialized.map { delegate }
         }
     }
 
     // TODO make private
-    init<S: SystemScreenDelegate>(appObserver: ApplicationObserverType, screens ssd: S) {
+    init<S: SystemScreenDelegate>(appObserver: ApplicationObserverType, screens ssd: S, notifier: EventNotifier? = nil) {
         log.debug("Initializing Swindler")
 
-        notifier = EventNotifier()
+        self.notifier = notifier ?? SimpleEventNotifier()
         systemScreens = ssd
 
         ssd.onScreenLayoutChanged { event in

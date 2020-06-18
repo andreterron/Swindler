@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2EEF3440249A81B900D21C38 /* EventNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF343F249A81B900D21C38 /* EventNotifier.swift */; };
 		2F00BBD92142F32700457FB2 /* FakeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F00BBD82142F32700457FB2 /* FakeSpec.swift */; };
 		2F00BBDB21432A9000457FB2 /* FakeAXSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F00BBDA21432A9000457FB2 /* FakeAXSwift.swift */; };
 		2F00BBDD2143769C00457FB2 /* FakeSwindler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F00BBDC2143769C00457FB2 /* FakeSwindler.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2EEF343F249A81B900D21C38 /* EventNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventNotifier.swift; sourceTree = "<group>"; };
 		2F00BBD82142F32700457FB2 /* FakeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeSpec.swift; sourceTree = "<group>"; };
 		2F00BBDA21432A9000457FB2 /* FakeAXSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeAXSwift.swift; sourceTree = "<group>"; };
 		2F00BBDC2143769C00457FB2 /* FakeSwindler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeSwindler.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				2F7F00FD1C1152FF00C97949 /* Window.swift */,
 				2F6314281C49C0DD001D1E24 /* Screen.swift */,
 				2F7F00FF1C1155DC00C97949 /* AXPropertyDelegate.swift */,
+				2EEF343F249A81B900D21C38 /* EventNotifier.swift */,
 				2F86CEE11BD6D9E1007E8C29 /* Events.swift */,
 				2F7F01011C11570D00C97949 /* Errors.swift */,
 				2F7F01031C11578800C97949 /* AXSwiftProtocols.swift */,
@@ -500,6 +503,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EEF3440249A81B900D21C38 /* EventNotifier.swift in Sources */,
 				2F7F01001C1155DC00C97949 /* AXPropertyDelegate.swift in Sources */,
 				2F7F00FE1C1152FF00C97949 /* Window.swift in Sources */,
 				2FEEA2E31C1E6E9200CD515E /* Log.swift in Sources */,
