@@ -70,6 +70,9 @@ public final class Window {
     /// Whether the window is fullscreen or not.
     public var isFullscreen: WriteableProperty<OfType<Bool>> { return delegate.isFullscreen }
 
+//    public var document: Property<OfType<String?>>! { return delegate.document }
+    public var document: String? { return delegate.document }
+
     public func close() throws {
         return try delegate.close()
     }
@@ -109,6 +112,7 @@ protocol WindowDelegate: class {
     var title: Property<OfType<String>>! { get }
     var isMinimized: WriteableProperty<OfType<Bool>>! { get }
     var isFullscreen: WriteableProperty<OfType<Bool>>! { get }
+    var document: String? { get }
 
     func equalTo(_ other: WindowDelegate) -> Bool
 
@@ -140,6 +144,15 @@ final class OSXWindowDelegate<
     var title: Property<OfType<String>>!
     var isMinimized: WriteableProperty<OfType<Bool>>!
     var isFullscreen: WriteableProperty<OfType<Bool>>!
+
+    public var document: String? {
+        do {
+            return try axElement.attribute(.document)
+        } catch {
+            print("Failed to get document", error)
+        }
+        return nil
+    }
 
     private init(_ appDelegate: ApplicationDelegate,
                  _ notifier: EventNotifier?,
