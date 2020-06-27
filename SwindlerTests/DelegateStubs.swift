@@ -30,6 +30,8 @@ class StubApplicationDelegate: ApplicationDelegate {
 class StubWindowDelegate: WindowDelegate {
     var isValid: Bool = true
 
+    var axUIElement: UIElement? = nil
+
     var appDelegate: ApplicationDelegate?
 
     var frame: WriteableProperty<OfType<CGRect>>!

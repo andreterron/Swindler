@@ -7,6 +7,8 @@ import PromiseKit
 public final class Window {
     internal let delegate: WindowDelegate
 
+    public var uiElement: UIElement? { return delegate.axUIElement }
+
     // A Window holds a strong reference to the Application and therefore the ApplicationDelegate.
     // It should not be held internally by delegates, or it would create a reference cycle.
     fileprivate var application_: Application!
@@ -103,6 +105,8 @@ extension String {
 protocol WindowDelegate: class {
     var isValid: Bool { get }
 
+    var axUIElement: UIElement? { get }
+
     // Optional because a WindowDelegate shouldn't hold a strong reference to its parent
     // ApplicationDelegate.
     var appDelegate: ApplicationDelegate? { get }
@@ -125,7 +129,9 @@ protocol WindowDelegate: class {
 final class OSXWindowDelegate<
     UIElement, ApplicationElement: ApplicationElementType, Observer: ObserverType
 >: WindowDelegate
-    where Observer.UIElement == UIElement, ApplicationElement.UIElement == UIElement {
+where Observer.UIElement == UIElement, ApplicationElement.UIElement == UIElement {
+    var axUIElement: AXSwift.UIElement? { return axElement as? AXSwift.UIElement }
+
     typealias Object = Window
 
     fileprivate weak var notifier: EventNotifier?
