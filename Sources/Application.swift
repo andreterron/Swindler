@@ -122,13 +122,13 @@ final class OSXApplicationDelegate<
     var isHidden: WriteableProperty<OfType<Bool>>!
 
     var processIdentifier: pid_t!
-    lazy var runningApplication: NSRunningApplication =
+    lazy var runningApplication: NSRunningApplication? =
         NSRunningApplication(processIdentifier: self.processIdentifier)!
     lazy var bundleIdentifier: String? =
-        self.runningApplication.bundleIdentifier
+        self.runningApplication?.bundleIdentifier
 
     lazy var bundleURL: URL? =
-    self.runningApplication.bundleURL
+        self.runningApplication?.bundleURL
 
     var knownWindows: [WindowDelegate] {
         return windows.map({ $0 as WindowDelegate })
@@ -313,12 +313,12 @@ final class OSXApplicationDelegate<
 
     func quit() {
         // TODO: Promise
-        runningApplication.terminate()
+        runningApplication?.terminate()
     }
 
     func forceQuit() {
         // TODO: Promise
-        runningApplication.forceTerminate()
+        runningApplication?.forceTerminate()
     }
 }
 
