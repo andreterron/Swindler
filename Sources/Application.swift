@@ -123,7 +123,7 @@ final class OSXApplicationDelegate<
 
     var processIdentifier: pid_t!
     lazy var runningApplication: NSRunningApplication? =
-        NSRunningApplication(processIdentifier: self.processIdentifier)!
+        NSRunningApplication(processIdentifier: self.processIdentifier)
     lazy var bundleIdentifier: String? =
         self.runningApplication?.bundleIdentifier
 
