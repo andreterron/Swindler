@@ -61,6 +61,8 @@ class AXPropertyDelegate<T: Equatable, UIElement: UIElementType>: PropertyDelega
             log.debug("Got invalidUIElement for element \(axElement) "
                     + "when attempting to write \(attribute)")
             throw PropertyError.invalidObject(cause: AXSwift.AXError.invalidUIElement)
+        } catch AXSwift.AXError.attributeUnsupported {
+            throw PropertyError.failure(cause: AXSwift.AXError.attributeUnsupported)
         } catch let error {
             unexpectedError(error)
             throw PropertyError.invalidObject(cause: error)
